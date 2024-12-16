@@ -68,7 +68,7 @@ while文のなかで
 呼ぶ。
 
 ## 担当セクション
-- `INIT`, `END`:渡貫 
+- `INIT`, `END`:渡貫
 - `PLAYING`のラケット部分: 
 - `PLAYING`のボール部分: 
 - `VIEWING_SCORE`の部分: 
