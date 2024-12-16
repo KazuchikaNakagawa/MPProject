@@ -28,12 +28,12 @@
 ## 内部仕様
 ### ステート
 ```c
-typedef enum State {
+typedef enum {
     INIT,
     PLAYING,
     VIEWING_SCORE,
     END
-};
+} State;
 
 State handle_init();
 State handle_playing();
