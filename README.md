@@ -66,3 +66,9 @@ while文のなかで
 ### `VIEWING_SCORE`ステート
 スコアを表示し、while文の中で`check_btn0()`などを
 呼ぶ。
+
+## 担当セクション
+- `INIT`, `END`: 
+- `PLAYING`のラケット部分: 
+- `PLAYING`のボール部分: 
+- `VIEWING_SCORE`の部分: 
