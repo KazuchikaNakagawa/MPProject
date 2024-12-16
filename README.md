@@ -71,4 +71,4 @@ while文のなかで
 - `INIT`, `END`:渡貫
 - `PLAYING`のラケット部分: 
 - `PLAYING`のボール部分: 
-- `VIEWING_SCORE`の部分: 
+- `VIEWING_SCORE`の部分: 寺田
