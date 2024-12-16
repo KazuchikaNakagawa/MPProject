@@ -1,0 +1,11 @@
+*.jou
+*.log
+*.bit
+*.html
+*.xml
+*.srcs/
+*.cache/
+*.hw/
+*.ip_user_files/
+*.xpr/
+.Xil/
