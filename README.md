@@ -72,3 +72,6 @@ while文のなかで
 - `PLAYING`のラケット部分: 宮崎
 - `PLAYING`のボール部分: 
 - `VIEWING_SCORE`の部分: 寺田
+
+## フローチャート
+[こちら](https://docs.google.com/presentation/d/1i-vFEwM2cyURMkjosglFH6J28HER-Qemv2EnI0zyA0k/edit?usp=sharing)
