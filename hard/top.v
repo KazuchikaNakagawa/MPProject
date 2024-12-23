@@ -17,7 +17,7 @@ module fpga_top (
 	input		[7:0]	iod,
 	output 	reg	[3:0]	led,
 	output		[7:0]	lcd,
-	output		[7:0]	iob
+	output	reg [7:0]	iob
 );
 wire	[31:0]	pc, instr, readdata, readdata0, readdata1, writedata, dataadr,readdata5, readdata6, readdata7;
 wire	[3:0]	byteen;
@@ -53,7 +53,7 @@ assign	cs2	= dataadr == 32'hff08;
 assign cs3 = dataadr == 32'hff0c;
 assign cs5 = dataadr == 32'hff14;
 assign cs6 = dataadr == 32'hff18;
-assign cs7 = dataadr == 32'hff1c
+assign cs7 = dataadr == 32'hff1c;
 assign	readdata	= cs0 ? readdata0 : cs1 ? readdata1 : cs5 ? readdata5 : cs6 ? readdata6 : 0;
 
 /* cs5 */
@@ -64,7 +64,7 @@ assign readdata6    = {22'h0, rte2};
 
 always @ (posedge clk_62p5mhz or posedge reset)
 	if (reset)	mode <= 0;
-	else if(cs7 && memwrite) mode <= writedata[7:0]
+	else if(cs7 && memwrite) mode <= writedata[7:0];
 always @ (posedge clk_62p5mhz or posedge reset)
 	if (reset) iob <= 0;
 	else iob[0] <= buzz;
@@ -155,7 +155,7 @@ endmodule
 module beep (
 	input clk_62p5mhz,
 	input reset,
-	input [7,0] mode,
+	input [7:0] mode,
 	output buzz
 );
 reg [31:0] count;
@@ -175,7 +175,7 @@ assign interval = 	(mode == 1) ? 14931 * 2: /* C */
 					(mode == 13) ? 7465 * 2: /* C */
 					0;
 
-assign buzz (mode > 0) && (count < interval / 2) ? 1 :0;
+assign buzz = (mode > 0) && (count < interval / 2) ? 1 :0;
 always @ (posedge clk_62p5mhz or posedge reset)
 	if (reset)
 		count <= 0;
