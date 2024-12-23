@@ -89,11 +89,11 @@ void lcd_digit(int y, int x) {
     digita1 = (a % 10) + '0';
     digitb1 = (b % 10) + '0';
 
-    lcd_putc(y, x, digita2);
-    lcd_putc(y, x+1, digita1);
-    lcd_putc(y, x+2, ' ');
-    lcd_putc(y, x+3, digitb2);
-    lcd_putc(y, x+4, digitb1);   
+    lcd_putc_16(y, x, digita2);
+    lcd_putc_16(y, x+1, digita1);
+    lcd_putc_16(y, x+2, '-');
+    lcd_putc_16(y, x+3, digitb2);
+    lcd_putc_16(y, x+4, digitb1);   
 }
 
 void main() {
