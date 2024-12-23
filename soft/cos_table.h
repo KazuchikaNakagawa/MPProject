@@ -1,7 +1,7 @@
 #ifndef COS_TABLE_H
 #define COS_TABLE_H
 
-double cos_table[256] = {
+int cos_table[256] = {
 -100, 
 -99, 
 -99, 

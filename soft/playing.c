@@ -105,8 +105,6 @@ void draw_rackets()
 
 State handle_playing()
 {
-    while (1) {
-    }
     return PLAYING;
 }
 
