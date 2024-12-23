@@ -83,14 +83,14 @@ void lcd_putc(int y, int x, int c) {
 void lcd_digit(int y, int x) {
     int digita1, digita2, digitb1, digitb2;
 
-    digita2 = (a == 0) ? ' ' : (a/10)  + '0';
-    digitb2 = (b == 0) ? ' ' : (b/10)  + '0';
-    digita1 = (a % 10) + '0';
-    digitb1 = (b % 10) + '0';
+    digita2 = (a == 0) ? ' ' : (a/10);
+    digitb2 = (b == 0) ? ' ' : (b/10);
+    digita1 = (a % 10);
+    digitb1 = (b % 10);
 
     lcd_putc(y, x, digita2);
     lcd_putc(y, x+1, digita1);
-    lcd_putc(y, x+2, ' ');
+    lcd_putc(y, x+2, 'x');
     lcd_putc(y, x+3, digitb2);
     lcd_putc(y, x+4, digitb1);   
 }
