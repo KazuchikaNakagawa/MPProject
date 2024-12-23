@@ -58,8 +58,8 @@ BTN0で再び`INIT`に遷移し、次のゲームを待つ。
 ### `PLAYING`ステート
 while文のなかで
 - ダイヤルの入力確認(`check_dials`)
-- ボールの座標計算(`move_ball(ball*)`)
-- ボールがコート外にいるか判定する関数(`check_ball(ball*)`)
+- ボールの座標計算(`move_ball(Ball*)`)
+- ボールがコート外にいるか判定する関数(`check_ball(Ball*)`)
 
 を呼ぶ。
 
