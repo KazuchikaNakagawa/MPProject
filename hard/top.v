@@ -18,14 +18,15 @@ module fpga_top (
 	output 	reg	[3:0]	led,
 	output		[7:0]	lcd
 );
-wire	[31:0]	pc, instr, readdata, readdata0, readdata1, writedata, dataadr,readdata5, readdata6;
+wire	[31:0]	pc, instr, readdata, readdata0, readdata1, writedata, dataadr,readdata5, readdata6, readdata7;
 wire	[3:0]	byteen;
-wire	[9:0]	rte;
+wire	[9:0]	rte, rte2;
 wire		reset;
-wire		memwrite, memtoregM, swc, cs0, cs1, cs2, cs3, cs4, cs5, irq;
+wire		memwrite, memtoregM, swc, cs0, cs1, cs2, cs3, cs4, cs5, cs6, irq;
 reg		clk_62p5mhz;
 
 rotary_enc rotary_enc (clk_62p5mhz, reset, ioa, rte);
+rotary_enc rotary_enc2 (clk_62p5mhz, reset, iod, rte2);
 
 /* Reset when two buttons are pushed */
 assign	reset	= btn[0] & btn[1];
@@ -45,10 +46,14 @@ assign	cs1	= dataadr == 32'hff04;
 assign	cs2	= dataadr == 32'hff08;
 assign cs3 = dataadr == 32'hff0c;
 assign cs5 = dataadr == 32'hff14;
-assign	readdata	= cs0 ? readdata0 : cs1 ? readdata1 : cs5 ? readdata5 : 0;
+assign cs6 = dataadr == 32'hff18;
+assign	readdata	= cs0 ? readdata0 : cs1 ? readdata1 : cs5 ? readdata5 : cs6 ? readdata6 : 0;
 
 /* cs5 */
 assign readdata5    = {22'h0, rte};
+
+/* cs6 */
+assign readdata6    = {22'h0, rte2};
 
 /* Memory module (@125MHz) */
 mem mem (clk_125mhz, reset, cs0 & memwrite, pc[15:2], dataadr[15:2], instr, 
