@@ -55,16 +55,8 @@ void lcd_putc_16(int y, int x, int c) {
 
 for (int v = 0; v < 16; v++) {      
         for (int h = 0; h < 16; h++) {
-            if (v%2==1) {
-                v2 = (v-1)/2;
-            } else {
-                v2 = v/2;
-            }
-            if (h%2==1) {
-                h2 = (h-1)/2;
-            } else {
-                h2 = h/2;
-            }
+            v2 = v/2;
+            h2 = h/2;
             if ((font8x8[(c-0x20)*8+h2] >> v2) & 0x01) {
                 lcd_set_vbuf_pixel(y*16+v, x*16+h, 0, 255, 0);
             }
