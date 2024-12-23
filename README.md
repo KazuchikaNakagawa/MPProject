@@ -58,8 +58,8 @@ BTN0で再び`INIT`に遷移し、次のゲームを待つ。
 ### `PLAYING`ステート
 while文のなかで
 - ダイヤルの入力確認(`check_dials`)
-- ボールの座標計算(`move_ball(ball*)`)
-- ボールがコート外にいるか判定する関数(`check_ball(ball*)`)
+- ボールの座標計算(`move_ball(Ball*)`)
+- ボールがコート外にいるか判定する関数(`check_ball(Ball*)`)
 
 を呼ぶ。
 
@@ -69,6 +69,9 @@ while文のなかで
 
 ## 担当セクション
 - `INIT`, `END`:渡貫
-- `PLAYING`のラケット部分: 
-- `PLAYING`のボール部分: 
+- `PLAYING`のラケット部分: 宮崎
+- `PLAYING`のボール部分: 中川
 - `VIEWING_SCORE`の部分: 寺田
+
+## フローチャート
+[こちら](https://docs.google.com/presentation/d/1i-vFEwM2cyURMkjosglFH6J28HER-Qemv2EnI0zyA0k/edit?usp=sharing)
