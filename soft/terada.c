@@ -82,7 +82,7 @@ void lcd_putc(int y, int x, int c) {
 
 void lcd_digit(int y, int x) {
     int digita1, digita2, digitb1, digitb2;
-    int a = 15, b = 0;
+    static int a = 15, b = 0;
 
     digita2 = (a == 0) ? ' ' : (a/10)  + '0';
     digitb2 = (b == 0) ? ' ' : (b/10)  + '0';
