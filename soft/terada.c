@@ -91,7 +91,7 @@ void main() {
 
     lcd_init();
     lcd_clear_vbuf();
-    lcd_digit(2, 0, a, b);
+    lcd_digit(2, 0, 15, 0);
     lcd_sync_vbuf();
 }
 
