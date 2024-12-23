@@ -87,11 +87,11 @@ void lcd_digit(int y, int x, int a, int b) {
 }
 
 void main() {
-    static int a = 15, b = 0;
+    int _a = 15, _b = 0;
 
     lcd_init();
     lcd_clear_vbuf();
-    lcd_digit(2, 0, 15, 0);
+    lcd_digit(2, 0, _a, _b);
     lcd_sync_vbuf();
 }
 
