@@ -7,7 +7,7 @@ def generate_tan():
     f.write("#define COS_TABLE_H\n\n")
     f.write("double cos_table[256] = {\n")
     for i in range(0, 256):
-        f.write(str(cos((i - 128) * 2 * pi / 256)))
+        f.write(str(int(cos((i - 128) * 2 * pi / 256) * 100)))
         if i != 255:
             f.write(", \n")
         else:
