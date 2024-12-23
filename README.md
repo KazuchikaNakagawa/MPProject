@@ -70,7 +70,7 @@ while文のなかで
 ## 担当セクション
 - `INIT`, `END`:渡貫
 - `PLAYING`のラケット部分: 宮崎
-- `PLAYING`のボール部分: 
+- `PLAYING`のボール部分: 中川
 - `VIEWING_SCORE`の部分: 寺田
 
 ## フローチャート
