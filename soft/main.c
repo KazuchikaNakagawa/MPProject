@@ -1,22 +1,7 @@
 #include "ChrFont0.h"
 #include "crt0.c"
 
-typedef enum {
-    INIT,
-    PLAYING,
-    VIEWING_SCORE,
-    END
-} State;
-
-extern State handle_init();
-extern State handle_playing();
-extern State handle_viewing();
-extern State handle_end();
-
-extern State interrupt_init();
-extern State interrupt_playing();
-extern State interrupt_viewing();
-extern State interrupt_end();
+#include "defines.h"
 
 static State state = INIT;
 
@@ -24,16 +9,16 @@ void interrupt_handler()
 {
     switch (state) {
     case INIT:
-        state = interrupt_init();
+        interrupt_init();
         break;
     case PLAYING:
-        state = interrupt_playing();
+        interrupt_playing();
         break;
     case VIEWING_SCORE:
-        state = interrupt_viewing();
+        interrupt_viewing();
         break;
     case END:
-        state = interrupt_end();
+        interrupt_end();
         break;
     }
 }
