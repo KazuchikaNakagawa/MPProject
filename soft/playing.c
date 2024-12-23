@@ -89,18 +89,29 @@ void read_dials(Racket* racket1, Racket* racket2)
 {
     volatile int* dial1 = (int*)0xff14;
     unsigned dial1_value = (*dial1) >> 2;
-    lcd_putc(1, 0, '0' + dial1_value / 100);
-    lcd_putc(1, 1, '0' + (dial1_value % 100) / 10);
-    lcd_putc(1, 2, '0' + dial1_value % 10);
+    // lcd_putc(1, 0, '0' + dial1_value / 100);
+    // lcd_putc(1, 1, '0' + (dial1_value % 100) / 10);
+    // lcd_putc(1, 2, '0' + dial1_value % 10);
     int dial1_cos = cos_table[dial1_value];
     int dial1_sin = sin_table[dial1_value];
-    lcd_putc(0, 0, ('0' + dial1_cos / 100));
-    lcd_putc(0, 1, '0' + (dial1_cos % 100) / 10);
-    lcd_putc(0, 2, ('0' + dial1_cos % 10));
+    // lcd_putc(0, 0, ('0' + dial1_cos / 100));
+    // lcd_putc(0, 1, '0' + (dial1_cos % 100) / 10);
+    // lcd_putc(0, 2, ('0' + dial1_cos % 10));
     racket1->endPoint.y = racket1->pos.y + (16 * dial1_cos) / 100;
     racket1->endPoint.x = racket1->pos.x + (16 * dial1_sin) / 100;
 
-    // volatile int* dial2 = (int*)0xff18;
+    volatile int* dial2 = (int*)0xff18;
+    unsigned dial2_value = (*dial2) >> 2;
+    lcd_putc(1, 3, '0' + dial2_value / 100);
+    lcd_putc(1, 4, '0' + (dial2_value % 100) / 10);
+    lcd_putc(1, 5, '0' + dial2_value % 10);
+    int dial2_cos = cos_table[dial2_value];
+    int dial2_sin = sin_table[dial2_value];
+    lcd_putc(0, 3, ('0' + dial2_cos / 100));
+    lcd_putc(0, 4, '0' + (dial2_cos % 100) / 10);
+    lcd_putc(0, 5, ('0' + dial2_cos % 10));
+    racket2->endPoint.y = racket2->pos.y + (16 * dial2_cos) / 100;
+    racket2->endPoint.x = racket2->pos.x + (16 * dial2_sin) / 100;
 }
 
 void draw_rackets()
