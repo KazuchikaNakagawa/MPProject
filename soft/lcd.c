@@ -1,5 +1,4 @@
 #include "ChrFont0.h"
-#include "crt0.c"
 
 /*
  * LCD functions
