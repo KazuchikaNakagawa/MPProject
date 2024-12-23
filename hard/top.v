@@ -17,7 +17,7 @@ module fpga_top (
 	input		[7:0]	iod,
 	output 	reg	[3:0]	led,
 	output		[7:0]	lcd,
-	output		[7:0]	iob
+	output	reg [7:0]	iob
 );
 wire	[31:0]	pc, instr, readdata, readdata0, readdata1, writedata, dataadr,readdata5, readdata6, readdata7;
 wire	[3:0]	byteen;
@@ -155,7 +155,7 @@ endmodule
 module beep (
 	input clk_62p5mhz,
 	input reset,
-	input [7,0] mode,
+	input [7:0] mode,
 	output buzz
 );
 reg [31:0] count;
