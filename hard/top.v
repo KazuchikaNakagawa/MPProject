@@ -13,16 +13,19 @@ module fpga_top (
 	input			clk_125mhz,
 	input		[3:0]	sw,
 	input		[3:0]	btn,
+	input		[7:0]	ioa,
+	input		[7:0]	iod,
 	output 	reg	[3:0]	led,
-	output		[7:0]	lcd,
-	output	reg	[7:0]	ioa,
-	output	reg	[7:0]	iob
+	output		[7:0]	lcd
 );
-wire	[31:0]	pc, instr, readdata, readdata0, readdata1, writedata, dataadr;
+wire	[31:0]	pc, instr, readdata, readdata0, readdata1, writedata, dataadr,readdata5, readdata6;
 wire	[3:0]	byteen;
+wire	[9:0]	rte;
 wire		reset;
 wire		memwrite, memtoregM, swc, cs0, cs1, cs2, cs3, cs4, cs5, irq;
 reg		clk_62p5mhz;
+
+rotary_enc rotary_enc (clk_62p5mhz, reset, ioa, rte);
 
 /* Reset when two buttons are pushed */
 assign	reset	= btn[0] & btn[1];
@@ -41,7 +44,11 @@ assign	cs0	= dataadr <  32'hff00;
 assign	cs1	= dataadr == 32'hff04;
 assign	cs2	= dataadr == 32'hff08;
 assign cs3 = dataadr == 32'hff0c;
-assign	readdata	= cs0 ? readdata0 : cs1 ? readdata1 : 0;
+assign cs5 = dataadr == 32'hff14;
+assign	readdata	= cs0 ? readdata0 : cs1 ? readdata1 : cs5 ? readdata5 : 0;
+
+/* cs5 */
+assign readdata5    = {22'h0, rte};
 
 /* Memory module (@125MHz) */
 mem mem (clk_125mhz, reset, cs0 & memwrite, pc[15:2], dataadr[15:2], instr, 
@@ -61,6 +68,71 @@ always @ (posedge clk_62p5mhz or posedge reset)
 	else if (cs2 && memwrite)	led	<= writedata[3:0];
 
 endmodule
+
+module rotary_enc (
+	input clk_62p5mhz,
+	input reset,
+	input [3:0] rte_in,
+	output [9:0] rte_out
+);
+reg		[7:0]	count;
+wire 			A,B;
+reg				prevA, prevB;
+assign	{B, A} = rte_in[1:0];
+assign rte_out = {count, rte_in[3:2]};
+always @ (posedge clk_62p5mhz or posedge reset)
+	if (reset) begin
+		count <= 128;
+		prevA <= 0;
+		prevB <= 0;
+	end else
+		case ({prevA, A, prevB, B})
+		4'b0100: begin
+			count <= count +1;
+			prevA <= A;
+		end	
+	
+    	4'b1101: begin
+        	count <= count +1;
+        	prevB <= B;
+    	end
+
+        4'b1011: begin
+            count <= count +1;
+            prevA <= A;
+        end
+
+        4'b0010: begin
+            count <= count +1;
+            prevB <= B;
+        end
+
+
+        4'b0001: begin
+            count <= count -1;
+            prevB <= B;
+        end
+
+
+        4'b0111: begin
+            count <= count -1;
+            prevA <= A;
+        end
+
+
+        4'b1110: begin
+            count <= count -1;
+            prevB <= B;
+        end
+
+
+        4'b1000: begin
+            count <= count -1;
+            prevA <= A;
+        end
+		endcase
+endmodule
+
 
 //***********************************************************************
 // 100msec timer for 62.5MHz clock
