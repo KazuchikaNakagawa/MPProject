@@ -1,6 +1,6 @@
 #include "cos_table.h"
 #include "defines.h"
-#include "lcd.h"
+#include "lcd.c"
 #include "sin_table.h"
 
 #define abs(x) ((x) < 0 ? -(x) : (x))
@@ -114,7 +114,9 @@ State handle_playing()
 
 void interrupt_playing()
 {
-    draw_rackets();
+    lcd_clear_vbuf();
+    lcd_putc(5, 5, 'P');
+    lcd_sync_vbuf();
 }
 
 void main()
