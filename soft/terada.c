@@ -58,7 +58,7 @@ for (int v = 0; v < 16; v++) {
             v2 = v/2;
             h2 = h/2;
             if ((font8x8[(c-0x20)*8+h2] >> v2) & 0x01) {
-                lcd_set_vbuf_pixel(y*16+v, x*16+h, 0, 255, 0);
+                lcd_set_vbuf_pixel(y*16+v, x*16+h+8, 0, 255, 0);
             }
         }
     }
@@ -70,6 +70,13 @@ void lcd_putc(int y, int x, int c) {
 			if ((font8x8[(c - 0x20) * 8 + h] >> v) & 0x01)
 				lcd_set_vbuf_pixel(y * 8 + v, x * 8 + h, 0, 255, 0);
 }
+void lcd_puts(int y, int x, char *str) {
+	for (int i = x; i < 12; i++)
+		if (str[i] < 0x20 || str[i] > 0x7f)
+			break;
+		else
+			lcd_putc(y, i, str[i]);
+}
 
 void lcd_digit(int y, int x, int a, int b) {
     int digita1, digita2, digitb1, digitb2;
@@ -79,11 +86,13 @@ void lcd_digit(int y, int x, int a, int b) {
     digita1 = (a % 10) + '0';
     digitb1 = (b % 10) + '0';
 
+
     lcd_putc_16(y, x, digita2);
     lcd_putc_16(y, x+1, digita1);
     lcd_putc_16(y, x+2, '-');
     lcd_putc_16(y, x+3, digitb2);
     lcd_putc_16(y, x+4, digitb1);   
+    lcd_puts(0, 0, " Score");
 }
 
 void main() {
