@@ -1,7 +1,6 @@
-#include "ChrFont0.h"
-#include "crt0.c"
-
 #include "defines.h"
+#include "lcd.c"
+#include "lcd.h"
 
 static State state = INIT;
 
@@ -28,6 +27,7 @@ void main()
     while (1) {
         switch (state) {
         case INIT:
+            lcd_init();
             state = handle_init();
             break;
         case PLAYING:
