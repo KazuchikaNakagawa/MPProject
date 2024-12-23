@@ -71,9 +71,8 @@ void lcd_putc(int y, int x, int c) {
 				lcd_set_vbuf_pixel(y * 8 + v, x * 8 + h, 0, 255, 0);
 }
 
-void lcd_digit(int y, int x) {
+void lcd_digit(int y, int x, int a, int b) {
     int digita1, digita2, digitb1, digitb2;
-    static int a = 15, b = 0;
 
     digita2 = (a == 0) ? ' ' : (a/10)  + '0';
     digitb2 = (b == 0) ? ' ' : (b/10)  + '0';
@@ -88,9 +87,11 @@ void lcd_digit(int y, int x) {
 }
 
 void main() {
+    static int a = 15, b = 0;
+
     lcd_init();
     lcd_clear_vbuf();
-    lcd_digit(2, 0);
+    lcd_digit(2, 0, a, b);
     lcd_sync_vbuf();
 }
 
