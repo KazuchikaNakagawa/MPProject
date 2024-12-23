@@ -73,6 +73,13 @@ for (int v = 0; v < 16; v++) {
     }
 }
 
+void lcd_putc(int y, int x, int c) {
+	for (int v = 0; v < 8; v++)
+		for (int h = 0; h < 8; h++)
+			if ((font8x8[(c - 0x20) * 8 + h] >> v) & 0x01)
+				lcd_set_vbuf_pixel(y * 8 + v, x * 8 + h, 0, 255, 0);
+}
+
 void lcd_digit(int y, int x) {
     int digita1, digita2, digitb1, digitb2;
     int a = 15, b = 0;
