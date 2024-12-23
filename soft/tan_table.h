@@ -1,7 +1,7 @@
 #ifndef TAN_TABLE_H
 #define TAN_TABLE_H
 
-double tan_table[256] = {
+int tan_table[256] = {
 0, 
 2, 
 4, 
