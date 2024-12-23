@@ -1,7 +1,7 @@
 #ifndef SIN_TABLE_H
 #define SIN_TABLE_H
 
-double sin_table[256] = {
+int sin_table[256] = {
 0, 
 -2, 
 -4, 
