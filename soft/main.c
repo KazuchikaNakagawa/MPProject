@@ -1,4 +1,5 @@
 #include "defines.h"
+#include "dummy_init.c"
 #include "lcd.c"
 #include "lcd.h"
 
