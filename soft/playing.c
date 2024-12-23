@@ -114,3 +114,17 @@ void interrupt_playing()
 {
     draw_rackets();
 }
+
+void main()
+{
+    State state = INIT;
+    lcd_init();
+    while (1) {
+        state = handle_playing();
+    }
+}
+
+void interrupt_handler()
+{
+    interrupt_playing();
+}
