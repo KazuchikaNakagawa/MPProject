@@ -53,7 +53,7 @@ assign	cs2	= dataadr == 32'hff08;
 assign cs3 = dataadr == 32'hff0c;
 assign cs5 = dataadr == 32'hff14;
 assign cs6 = dataadr == 32'hff18;
-assign cs7 = dataadr == 32'hff1c
+assign cs7 = dataadr == 32'hff1c;
 assign	readdata	= cs0 ? readdata0 : cs1 ? readdata1 : cs5 ? readdata5 : cs6 ? readdata6 : 0;
 
 /* cs5 */
