@@ -129,7 +129,6 @@ void draw_rackets()
 
     draw_racket1(&racket1);
     draw_racket2(&racket2);
-    lcd_sync_vbuf();
 }
 
 void draw_ball(Ball* ball)
@@ -167,6 +166,7 @@ void interrupt_playing()
     draw_rackets();
     draw_ball(&ball);
     move_ball(&ball);
+    lcd_sync_vbuf();
 }
 
 void main() // NOLINT
