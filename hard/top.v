@@ -64,7 +64,7 @@ assign readdata6    = {22'h0, rte2};
 
 always @ (posedge clk_62p5mhz or posedge reset)
 	if (reset)	mode <= 0;
-	else if(cs7 && memwrite) mode <= writedata[7:0]
+	else if(cs7 && memwrite) mode <= writedata[7:0];
 always @ (posedge clk_62p5mhz or posedge reset)
 	if (reset) iob <= 0;
 	else iob[0] <= buzz;
@@ -175,7 +175,7 @@ assign interval = 	(mode == 1) ? 14931 * 2: /* C */
 					(mode == 13) ? 7465 * 2: /* C */
 					0;
 
-assign buzz (mode > 0) && (count < interval / 2) ? 1 :0;
+assign buzz = (mode > 0) && (count < interval / 2) ? 1 :0;
 always @ (posedge clk_62p5mhz or posedge reset)
 	if (reset)
 		count <= 0;
