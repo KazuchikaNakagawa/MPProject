@@ -95,12 +95,28 @@ void lcd_digit(int y, int x, int a, int b) {
     lcd_puts(0, 0, " Score");
 }
 
+int point_win(int n) {
+    int p;
+    if (n == 0) {
+        p = 0;
+    } else if (n == 1) {
+        p = 15;
+    } else if (n == 2) {
+        p = 30;
+    } else if (n == 3) {
+        p = 40;
+    }
+
+    return p;
+}
+
 void main() {
-    int _a = 15, _b = 0;
+    int win_a = 1, win_b = 0;
+    int point_a = point_win(win_a), point_b = point_win(win_b);
 
     lcd_init();
     lcd_clear_vbuf();
-    lcd_digit(2, 0, _a, _b);
-    lcd_sync_vbuf();
+    lcd_digit(2, 0, win_a, win_b);
+    lcd_sync_vbuf();    
 }
 
