@@ -92,8 +92,8 @@ void read_dials()
     unsigned dial1_value = (*dial1) >> 2;
     int dial1_cos = cos_table[dial1_value];
     int dial1_sin = sin_table[dial1_value];
-    racket1.endPoint.x = (16 * dial1_cos) / 100;
-    racket1.endPoint.y = (16 * dial1_sin) / 100;
+    racket1.endPoint.y = racket1.pos.y + (16 * dial1_cos) / 100;
+    racket1.endPoint.x = racket1.pos.x + (16 * dial1_sin) / 100;
 
     // volatile int* dial2 = (int*)0xff18;
 }
@@ -122,6 +122,11 @@ void interrupt_playing()
 void main()
 {
     State state = INIT;
+    racket1.pos.x = 16;
+    racket1.pos.y = 16;
+
+    racket2.pos.x = 80;
+    racket2.pos.y = 16;
     lcd_init();
     while (1) {
         state = handle_playing();
