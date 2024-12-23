@@ -165,6 +165,8 @@ State handle_playing()
 void interrupt_playing()
 {
     draw_rackets();
+    draw_ball(&ball);
+    move_ball(&ball);
 }
 
 void main() // NOLINT
