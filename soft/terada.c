@@ -10,7 +10,11 @@ void lcd_set_vbuf_pixel(int row, int col, int r, int g, int b) {
 	r >>= 5; g >>= 5; b >>= 6;
 	lcd_vbuf[row][col] = ((r << 5) | (g << 2) | (b << 0)) & 0xff;
 }
-
+void lcd_data(unsigned char data) {
+	volatile int *lcd_ptr = (int *)0xff0c;
+	*lcd_ptr = 0x100 | data;
+	lcd_wait(200);
+}
 void lcd_clear_vbuf() {
 	for (int row = 0; row < 64; row++)
 		for (int col = 0; col < 96; col++)
@@ -21,11 +25,22 @@ void lcd_sync_vbuf() {
 		for (int col = 0; col < 96; col++)
 			lcd_data(lcd_vbuf[row][col]);
 }
-
+void lcd_init() {
+	lcd_pwr_on();   /* Display power ON */
+	lcd_cmd(0xa0);  /* Remap & color depth */
+	lcd_cmd(0x20);
+	lcd_cmd(0x15);  /* Set column address */
+	lcd_cmd(0);
+	lcd_cmd(95);
+	lcd_cmd(0x75);  /* Set row address */
+	lcd_cmd(0);
+	lcd_cmd(63);
+	lcd_cmd(0xaf);  /* Display ON */
+}
 void lcd_putc_16(int y, int x, int c) {
     int v2, h2;
 
-    for (int v = 0; v < 16; v++) {
+for (int v = 0; v < 16; v++) {      
         for (int h = 0; h < 16; h++) {
             if (v%2==1) {
                 v2 = v/2-1;
