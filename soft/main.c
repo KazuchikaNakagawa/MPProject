@@ -22,7 +22,7 @@ void interrupt_handler()
     }
 }
 
-void main()
+void main() // NOLINT
 {
     while (1) {
         switch (state) {

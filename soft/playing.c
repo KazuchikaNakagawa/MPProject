@@ -18,10 +18,18 @@ typedef struct {
     RacketPos endPoint;
 } Racket;
 
+typedef struct {
+    int x;
+    int y;
+    int vx;
+    int vy;
+} Ball;
+
 // 96x64px
 // racket -> 16px len
 static Racket racket1 = { { 16, 16 }, { 16, 32 } };
 static Racket racket2 = { { 80, 16 }, { 80, 32 } };
+static Ball ball = { 48, 32, 1, 0 };
 
 void draw_racket1(Racket* racket1)
 {
@@ -124,6 +132,29 @@ void draw_rackets()
     lcd_sync_vbuf();
 }
 
+void draw_ball(Ball* ball)
+{
+    // drawing 5x5px ball
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            lcd_set_vbuf_pixel(ball->y + i, ball->x + j, 255 / (1 + abs(i * j)), 255 / (1 + abs(i * j)), 255 / (1 + abs(i * j)));
+        }
+    }
+}
+
+void move_ball(Ball* ball)
+{
+    ball->x += ball->vx;
+    ball->y += ball->vy;
+    if (ball->x <= 0 || ball->x >= 95) {
+        // now bouncing,, but should be point lost
+        ball->vx = -ball->vx;
+    }
+    if (ball->y <= 0 || ball->y >= 63) {
+        ball->vy = -ball->vy;
+    }
+}
+
 State handle_playing()
 {
     while (1) {
@@ -136,7 +167,7 @@ void interrupt_playing()
     draw_rackets();
 }
 
-void main()
+void main() // NOLINT
 {
 #include "cos_table.h"
 #include "sin_table.h"
@@ -152,6 +183,12 @@ void main()
     racket2.pos.y = 16;
     racket2.endPoint.x = 80;
     racket2.endPoint.y = 32;
+
+    ball.x = 48;
+    ball.y = 32;
+    ball.vx = 1;
+    ball.vy = 0;
+
     lcd_init();
     while (1) {
         state = handle_playing();
