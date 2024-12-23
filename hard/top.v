@@ -16,14 +16,20 @@ module fpga_top (
 	input		[7:0]	ioa,
 	input		[7:0]	iod,
 	output 	reg	[3:0]	led,
-	output		[7:0]	lcd
+	output		[7:0]	lcd,
+	output		[7:0]	iob
 );
 wire	[31:0]	pc, instr, readdata, readdata0, readdata1, writedata, dataadr,readdata5, readdata6, readdata7;
 wire	[3:0]	byteen;
 wire	[9:0]	rte, rte2;
 wire		reset;
-wire		memwrite, memtoregM, swc, cs0, cs1, cs2, cs3, cs4, cs5, cs6, irq;
+wire		memwrite, memtoregM, swc, cs0, cs1, cs2, cs3, cs4, cs5, cs6, cs7, irq;
 reg		clk_62p5mhz;
+reg		[7:0] mode;
+wire	buzz;
+beep beep (clk_62p5mhz, reset, mode, buzz);
+
+
 
 rotary_enc rotary_enc (clk_62p5mhz, reset, ioa, rte);
 rotary_enc rotary_enc2 (clk_62p5mhz, reset, iod, rte2);
@@ -47,6 +53,7 @@ assign	cs2	= dataadr == 32'hff08;
 assign cs3 = dataadr == 32'hff0c;
 assign cs5 = dataadr == 32'hff14;
 assign cs6 = dataadr == 32'hff18;
+assign cs7 = dataadr == 32'hff1c
 assign	readdata	= cs0 ? readdata0 : cs1 ? readdata1 : cs5 ? readdata5 : cs6 ? readdata6 : 0;
 
 /* cs5 */
@@ -54,6 +61,13 @@ assign readdata5    = {22'h0, rte};
 
 /* cs6 */
 assign readdata6    = {22'h0, rte2};
+
+always @ (posedge clk_62p5mhz or posedge reset)
+	if (reset)	mode <= 0;
+	else if(cs7 && memwrite) mode <= writedata[7:0]
+always @ (posedge clk_62p5mhz or posedge reset)
+	if (reset) iob <= 0;
+	else iob[0] <= buzz;
 
 /* Memory module (@125MHz) */
 mem mem (clk_125mhz, reset, cs0 & memwrite, pc[15:2], dataadr[15:2], instr, 
@@ -138,6 +152,39 @@ always @ (posedge clk_62p5mhz or posedge reset)
 		endcase
 endmodule
 
+module beep (
+	input clk_62p5mhz,
+	input reset,
+	input [7,0] mode,
+	output buzz
+);
+reg [31:0] count;
+wire [31:0] interval;
+assign interval = 	(mode == 1) ? 14931 * 2: /* C */
+					(mode == 2) ? 14093 * 2: /* C */
+					(mode == 3) ? 13302 * 2: /* C */
+					(mode == 4) ? 12555 * 2: /* C */
+					(mode == 5) ? 11850 * 2: /* C */
+					(mode == 6) ? 11185 * 2: /* C */
+					(mode == 7) ? 10558 * 2: /* C */
+					(mode == 8) ? 9965 * 2: /* C */
+					(mode == 9) ? 9406 * 2: /* C */
+					(mode == 10) ? 8878 * 2: /* C */
+					(mode == 11) ? 8380 * 2: /* C */
+					(mode == 12) ? 7909 * 2: /* C */
+					(mode == 13) ? 7465 * 2: /* C */
+					0;
+
+assign buzz (mode > 0) && (count < interval / 2) ? 1 :0;
+always @ (posedge clk_62p5mhz or posedge reset)
+	if (reset)
+		count <= 0;
+	else if (mode > 0)
+			if (count < interval)
+				count <= count +1;
+			else
+				count <= 0;
+endmodule
 
 //***********************************************************************
 // 100msec timer for 62.5MHz clock
