@@ -1,7 +1,6 @@
 #include "crt0.c"
 #include "ChrFont0.h"
 
-int a = 15, b = 0;
 unsigned char lcd_vbuf[64][96];
 
 void interrupt_handler(){}
@@ -57,12 +56,12 @@ void lcd_putc_16(int y, int x, int c) {
 for (int v = 0; v < 16; v++) {      
         for (int h = 0; h < 16; h++) {
             if (v%2==1) {
-                v2 = v/2-1;
+                v2 = (v-1)/2;
             } else {
                 v2 = v/2;
             }
             if (h%2==1) {
-                h2 = h/2-1;
+                h2 = (h-1)/2;
             } else {
                 h2 = h/2;
             }
